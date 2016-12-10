@@ -7,17 +7,17 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.aerodeko.pfm.model.EventManager
+import com.aerodeko.pfm.model.EventInteractor
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var eventManager: EventManager
+    private lateinit var eventInteractor: EventInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        eventManager = EventManager(this)
+        eventInteractor = EventInteractor(this)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
