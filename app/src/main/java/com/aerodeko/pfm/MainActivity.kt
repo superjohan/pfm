@@ -9,7 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.aerodeko.pfm.model.EventInteractor
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EventInteractor.Listener {
     private lateinit var eventInteractor: EventInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,15 +17,19 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        eventInteractor = EventInteractor(this)
+        eventInteractor = EventInteractor(this, this)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        val fab = findViewById(R.id.fab) as FloatingActionButton
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+        val incomeButton = findViewById(R.id.income_button) as FloatingActionButton
+        incomeButton.setOnClickListener { view ->
+            eventInteractor.addIncome()
+        }
+
+        val expenseButton = findViewById(R.id.expense_button) as FloatingActionButton
+        expenseButton.setOnClickListener { view ->
+            eventInteractor.addExpense()
         }
     }
 
@@ -47,5 +51,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onOpenAddIncome() {
+        Snackbar.make(findViewById(R.id.income_button), "Income TODO", Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun onOpenAddExpense() {
+        Snackbar.make(findViewById(R.id.expense_button), "Expense TODO", Snackbar.LENGTH_SHORT).show()
     }
 }
