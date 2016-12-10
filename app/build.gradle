@@ -28,7 +28,7 @@ android {
     lintOptions {
         warningsAsErrors true
         checkAllWarnings true
-        disable 'GradleDependency', 'NewerVersionAvailable'
+        disable 'GradleDependency', 'NewerVersionAvailable', 'UnusedResources', 'UnusedIds'
     }
 }
 
