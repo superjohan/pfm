@@ -9,7 +9,7 @@ import java.util.*
  * Created by rm on 10/12/2016.
  */
 
-class EventManager(context: Context) {
+class EventManager(context: Context, val timeZone: TimeZone = TimeZone.getDefault()) {
     private val database: SQLiteDatabase
 
     init {
@@ -37,7 +37,7 @@ class EventManager(context: Context) {
     }
 
     fun getEvents(date: Date): List<Event> {
-        val startDate = Calendar.getInstance(TimeZone.getDefault())
+        val startDate = Calendar.getInstance(timeZone)
         startDate.time = date
         startDate.set(Calendar.HOUR_OF_DAY, 0)
         startDate.set(Calendar.MINUTE, 0)
