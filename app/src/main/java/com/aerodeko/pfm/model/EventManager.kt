@@ -3,6 +3,7 @@ package com.aerodeko.pfm.model
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.aerodeko.pfm.extensions.timeInDays
 import java.util.*
 
 /**
@@ -23,7 +24,7 @@ class EventManager(context: Context) {
 
     fun addEvent(value: Double, date: Calendar = Calendar.getInstance(), description: String? = null): Event? {
         val values = ContentValues()
-        values.put(EventDatabaseHelper.Event.Columns.DATE, date.timeInMillis)
+        values.put(EventDatabaseHelper.Event.Columns.DATE, date.timeInDays)
         values.put(EventDatabaseHelper.Event.Columns.VALUE, value)
         values.put(EventDatabaseHelper.Event.Columns.DESCRIPTION, description)
 
