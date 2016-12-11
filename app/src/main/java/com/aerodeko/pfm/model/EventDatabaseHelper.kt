@@ -17,6 +17,14 @@ internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context,
                         Event.Columns.VALUE + " REAL NOT NULL," +
                         Event.Columns.DESCRIPTION + " TEXT)"
         )
+
+        db?.execSQL(
+                "CREATE TABLE " + Budget.Table.NAME + " (" +
+                        Budget.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                        Budget.Columns.NAME + " TEXT NOT NULL," +
+                        Budget.Columns.START_DATE + " TIMESTAMP NOT NULL," +
+                        Budget.Columns.END_DATE + " TIMESTAMP NOT NULL)"
+        )
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -40,6 +48,19 @@ internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context,
             val DATE = "date"
             val VALUE = "value"
             val DESCRIPTION = "description"
+        }
+    }
+
+    object Budget {
+        object Table {
+            val NAME = "budgets"
+        }
+
+        object Columns {
+            val ID = "id"
+            val NAME = "name"
+            val START_DATE = "start_date"
+            val END_DATE = "end_date"
         }
     }
 }
