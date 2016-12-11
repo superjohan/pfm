@@ -3,6 +3,8 @@ package com.aerodeko.pfm.model
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.aerodeko.pfm.extensions.dateAsSeconds
+import java.util.*
 
 /**
  * Created by rm on 10/12/2016.
@@ -16,12 +18,18 @@ class EventManager(context: Context) {
         database = databaseHelper.writableDatabase
     }
 
-    fun addEvent(event: Event) {
+    fun addEvent(value: Double, date: Date = Date(), description: String? = null): Event? {
         val values = ContentValues()
-        values.put(EventDatabaseHelper.Event.Columns.DATE, event.dateAsSeconds)
-        values.put(EventDatabaseHelper.Event.Columns.VALUE, event.value)
-        values.put(EventDatabaseHelper.Event.Columns.DESCRIPTION, event.description)
+        values.put(EventDatabaseHelper.Event.Columns.DATE, date.dateAsSeconds)
+        values.put(EventDatabaseHelper.Event.Columns.VALUE, value)
+        values.put(EventDatabaseHelper.Event.Columns.DESCRIPTION, description)
 
-        database.insert(EventDatabaseHelper.Event.Table.NAME, null, values)
+        val rowId = database.insert(EventDatabaseHelper.Event.Table.NAME, null, values)
+
+        if (rowId != -1L) {
+            return Event(date, value, description)
+        } else {
+            return null
+        }
     }
 }
