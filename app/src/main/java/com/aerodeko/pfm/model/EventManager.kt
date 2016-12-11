@@ -3,6 +3,7 @@ package com.aerodeko.pfm.model
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.aerodeko.pfm.extensions.calendarFromDays
 import com.aerodeko.pfm.extensions.timeInDays
 import java.util.*
 
@@ -35,5 +36,40 @@ class EventManager(context: Context) {
         } else {
             return null
         }
+    }
+
+    fun getEvents(date: Calendar): List<Event> {
+        val cursor = database.query(
+                EventDatabaseHelper.Event.Table.NAME,
+                null, // all columns
+                EventDatabaseHelper.Event.Columns.DATE + "=" + date.timeInDays,
+                null,
+                null,
+                null,
+                null
+        )
+
+        val events = mutableListOf<Event>()
+
+        if (cursor.moveToFirst()) {
+            while (! cursor.isAfterLast) {
+                val days = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DATE))
+                val value = cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.VALUE))
+                val description = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DESCRIPTION))
+                val event = Event(
+                        date = calendarFromDays(days),
+                        value = value,
+                        description = description
+                )
+
+                events.add(event)
+
+                cursor.moveToNext()
+            }
+        }
+
+        cursor.close()
+
+        return events
     }
 }
