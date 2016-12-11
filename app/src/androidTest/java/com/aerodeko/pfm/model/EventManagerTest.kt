@@ -19,7 +19,7 @@ class EventManagerTest {
     fun setUp() {
         val context = InstrumentationRegistry.getTargetContext()
 
-        eventManager = EventManager(context)
+        eventManager = EventManager(context, TimeZone.getTimeZone("GMT"))
         eventManager.clearEvents()
     }
 
