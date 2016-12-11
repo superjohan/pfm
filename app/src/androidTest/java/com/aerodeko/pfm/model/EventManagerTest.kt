@@ -27,8 +27,7 @@ class EventManagerTest {
     fun test_adding_event_creates_valid_event() {
         val expectedValue = 1.0
 
-        val date = Calendar.getInstance()
-        date.timeInMillis = 1234567890
+        val date = Date(1234567890)
 
         val event = eventManager.addEvent(expectedValue, date)
         val events = eventManager.getEvents(date)

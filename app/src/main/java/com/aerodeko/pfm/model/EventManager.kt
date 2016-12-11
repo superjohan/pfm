@@ -3,8 +3,6 @@ package com.aerodeko.pfm.model
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.aerodeko.pfm.extensions.calendarFromDays
-import com.aerodeko.pfm.extensions.timeInDays
 import java.util.*
 
 /**
@@ -23,9 +21,9 @@ class EventManager(context: Context) {
         database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
     }
 
-    fun addEvent(value: Double, date: Calendar = Calendar.getInstance(), description: String? = null): Event? {
+    fun addEvent(value: Double, date: Date = Date(), description: String? = null): Event? {
         val values = ContentValues()
-        values.put(EventDatabaseHelper.Event.Columns.DATE, date.timeInDays)
+        values.put(EventDatabaseHelper.Event.Columns.DATE, date.time)
         values.put(EventDatabaseHelper.Event.Columns.VALUE, value)
         values.put(EventDatabaseHelper.Event.Columns.DESCRIPTION, description)
 
@@ -38,11 +36,21 @@ class EventManager(context: Context) {
         }
     }
 
-    fun getEvents(date: Calendar): List<Event> {
+    fun getEvents(date: Date): List<Event> {
+        val startDate = Calendar.getInstance(TimeZone.getDefault())
+        startDate.time = date
+        startDate.set(Calendar.HOUR_OF_DAY, 0)
+        startDate.set(Calendar.MINUTE, 0)
+        startDate.set(Calendar.SECOND, 0)
+        startDate.set(Calendar.MILLISECOND, 0)
+
+        val endDate = startDate.clone() as Calendar
+        endDate.add(Calendar.DAY_OF_MONTH, 1)
+
         val cursor = database.query(
                 EventDatabaseHelper.Event.Table.NAME,
-                null, // all columns
-                EventDatabaseHelper.Event.Columns.DATE + "=" + date.timeInDays,
+                null,
+                EventDatabaseHelper.Event.Columns.DATE + " between " + startDate.timeInMillis + " and " + endDate.timeInMillis,
                 null,
                 null,
                 null,
@@ -53,11 +61,11 @@ class EventManager(context: Context) {
 
         if (cursor.moveToFirst()) {
             while (! cursor.isAfterLast) {
-                val days = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DATE))
+                val date = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DATE))
                 val value = cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.VALUE))
                 val description = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DESCRIPTION))
                 val event = Event(
-                        date = calendarFromDays(days),
+                        date = Date(date),
                         value = value,
                         description = description
                 )
