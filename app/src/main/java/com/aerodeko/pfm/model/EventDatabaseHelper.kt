@@ -3,7 +3,6 @@ package com.aerodeko.pfm.model
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.provider.BaseColumns
 
 /**
  * Created by rm on 10/12/2016.
@@ -36,7 +35,7 @@ internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context,
             val NAME = "events"
         }
 
-        object Columns : BaseColumns {
+        object Columns {
             val ID = "id"
             val DATE = "date"
             val VALUE = "value"
