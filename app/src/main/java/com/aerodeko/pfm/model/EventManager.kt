@@ -17,6 +17,10 @@ class EventManager(context: Context) {
         database = databaseHelper.writableDatabase
     }
 
+    internal fun clearEvents() {
+        database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
+    }
+
     fun addEvent(value: Double, date: Calendar = Calendar.getInstance(), description: String? = null): Event? {
         val values = ContentValues()
         values.put(EventDatabaseHelper.Event.Columns.DATE, date.timeInMillis)
