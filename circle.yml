@@ -16,7 +16,14 @@ dependencies:
     - /usr/local/android-sdk-linux/extras/android/m2repository
 
 test:
+  pre:
+    - emulator -avd circleci-android22 -no-audio -no-window:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
   override:
+    - export TERM="dumb"; ./gradlew connectedAndroidTest
+    - adb logcat -d > logcat.txt
     - export TERM="dumb"; ./gradlew test
     - export TERM="dumb"; ./gradlew lint
   post:
@@ -34,3 +41,4 @@ general:
     - "app/build/outputs/lint-results-debug_files"
     - "app/build/test-results"
     - "app/build/reports"
+    - "logcat.txt"
