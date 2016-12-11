@@ -11,7 +11,7 @@ import java.util.*
  */
 
 class EventManager(context: Context) {
-    val database: SQLiteDatabase
+    private val database: SQLiteDatabase
 
     init {
         val databaseHelper = EventDatabaseHelper(context)
