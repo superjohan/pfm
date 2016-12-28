@@ -22,6 +22,56 @@ class EventManager(context: Context, val timeZone: TimeZone = TimeZone.getDefaul
         database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
     }
 
+    fun addBudget(name: String, startDate: Date, endDate: Date): Budget? {
+        val values = ContentValues()
+        values.put(EventDatabaseHelper.Budget.Columns.NAME, name)
+        values.put(EventDatabaseHelper.Budget.Columns.START_DATE, startDate.time)
+        values.put(EventDatabaseHelper.Budget.Columns.END_DATE, endDate.time)
+
+        val rowId = database.insert(EventDatabaseHelper.Budget.Table.NAME, null, values)
+
+        if (rowId != -1L) {
+            return Budget(name, startDate, endDate)
+        } else {
+            return null
+        }
+    }
+
+    fun getBudgets(): List<Budget> {
+        val cursor = database.query(
+                EventDatabaseHelper.Budget.Table.NAME,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        )
+
+        val budgets = mutableListOf<Budget>()
+
+        if (cursor.moveToFirst()) {
+            while (! cursor.isAfterLast) {
+                val name = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.NAME))
+                val startDate = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.START_DATE))
+                val endDate = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.END_DATE))
+                val budget = Budget(
+                        name = name,
+                        startDate = Date(startDate),
+                        endDate = Date(endDate)
+                )
+
+                budgets.add(budget)
+
+                cursor.moveToNext()
+            }
+        }
+
+        cursor.close()
+
+        return budgets
+    }
+
     fun addEvent(value: Double, date: Date = Date(), description: String? = null): Event? {
         val values = ContentValues()
         values.put(EventDatabaseHelper.Event.Columns.DATE, date.time)

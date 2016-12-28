@@ -65,4 +65,23 @@ class EventManagerTest {
         assertEquals("events for the date should be equal", event1_date2, events1[1])
         assertEquals("events for the date should be equal", event2, events2[0])
     }
+
+    @Test
+    fun test_adding_budget_creates_valid_budget() {
+        val budget = eventManager.addBudget(
+                name = "budget",
+                startDate = Date(1234567890),
+                endDate = Date(2345678901)
+        )
+
+        assertNotNull("budget should not be null", budget)
+
+        val budgets = eventManager.getBudgets()
+
+        assertEquals("should have one budget", 1, budgets.size)
+
+        val budgetFromDatabase = budgets[0]
+
+        assertEquals("budgets should be equal", budget, budgetFromDatabase)
+    }
 }
