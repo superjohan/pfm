@@ -29,7 +29,7 @@ class BudgetManagerTest {
         // this bit with the dates sucks. Do Better
         val date = Date(1234567890)
         val date2 = Date(2000000000)
-        val budget = Budget("budget", date, date2)
+        val budget = Budget("budget", 0.0, date, date2)
 
         val event = budgetManager.addEvent(expectedValue, date)
         val events = budgetManager.getEvents(budget)
@@ -53,8 +53,8 @@ class BudgetManagerTest {
         val event1_date2 = budgetManager.addEvent(3.0, date1.time)
         val event2 = budgetManager.addEvent(2.0, date2.time)
 
-        val budget1 = Budget("budget 1", date1.time, date2.time)
-        val budget2 = Budget("budget 2", date2.time, date3.time)
+        val budget1 = Budget("budget 1", 0.0, date1.time, date2.time)
+        val budget2 = Budget("budget 2", 0.0, date2.time, date3.time)
 
         val events1 = budgetManager.getEvents(budget1)
         val events2 = budgetManager.getEvents(budget2)
@@ -70,6 +70,7 @@ class BudgetManagerTest {
     fun test_adding_budget_creates_valid_budget() {
         val budget = budgetManager.addBudget(
                 name = "budget",
+                amount = 10.0,
                 startDate = Date(1234567890),
                 endDate = Date(2345678901)
         )

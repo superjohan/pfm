@@ -23,16 +23,17 @@ class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefau
         database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
     }
 
-    fun addBudget(name: String, startDate: Date, endDate: Date): Budget? {
+    fun addBudget(name: String, amount: Double, startDate: Date, endDate: Date): Budget? {
         val values = ContentValues()
         values.put(EventDatabaseHelper.Budget.Columns.NAME, name)
+        values.put(EventDatabaseHelper.Budget.Columns.AMOUNT, amount)
         values.put(EventDatabaseHelper.Budget.Columns.START_DATE, startDate.time)
         values.put(EventDatabaseHelper.Budget.Columns.END_DATE, endDate.time)
 
         val rowId = database.insert(EventDatabaseHelper.Budget.Table.NAME, null, values)
 
         if (rowId != -1L) {
-            return Budget(name, startDate, endDate)
+            return Budget(name, amount, startDate, endDate)
         } else {
             return null
         }
@@ -54,10 +55,12 @@ class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefau
         if (cursor.moveToFirst()) {
             while (! cursor.isAfterLast) {
                 val name = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.NAME))
+                val amount = cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.AMOUNT))
                 val startDate = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.START_DATE))
                 val endDate = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.END_DATE))
                 val budget = Budget(
                         name = name,
+                        amount = amount,
                         startDate = Date(startDate),
                         endDate = Date(endDate)
                 )

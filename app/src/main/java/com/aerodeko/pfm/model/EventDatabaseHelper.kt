@@ -22,6 +22,7 @@ internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context,
                 "CREATE TABLE " + Budget.Table.NAME + " (" +
                         Budget.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         Budget.Columns.NAME + " TEXT NOT NULL," +
+                        Budget.Columns.AMOUNT + " REAL NOT NULL," +
                         Budget.Columns.START_DATE + " TIMESTAMP NOT NULL," +
                         Budget.Columns.END_DATE + " TIMESTAMP NOT NULL)"
         )
@@ -59,6 +60,7 @@ internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context,
         object Columns {
             val ID = "id"
             val NAME = "name"
+            val AMOUNT = "amount"
             val START_DATE = "start_date"
             val END_DATE = "end_date"
         }
