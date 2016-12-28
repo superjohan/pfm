@@ -3,6 +3,7 @@ package com.aerodeko.pfm.model
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import com.aerodeko.pfm.extensions.setTimeToStartOfDate
 import java.util.*
 
 /**
@@ -36,16 +37,12 @@ class EventManager(context: Context, val timeZone: TimeZone = TimeZone.getDefaul
         }
     }
 
-    fun getEvents(date: Date): List<Event> {
+    fun getEvents(budget: Budget): List<Event> {
         val startDate = Calendar.getInstance(timeZone)
-        startDate.time = date
-        startDate.set(Calendar.HOUR_OF_DAY, 0)
-        startDate.set(Calendar.MINUTE, 0)
-        startDate.set(Calendar.SECOND, 0)
-        startDate.set(Calendar.MILLISECOND, 0)
+        startDate.setTimeToStartOfDate(budget.startDate)
 
-        val endDate = startDate.clone() as Calendar
-        endDate.add(Calendar.DAY_OF_MONTH, 1)
+        val endDate = Calendar.getInstance(timeZone)
+        endDate.setTimeToStartOfDate(budget.endDate)
 
         val cursor = database.query(
                 EventDatabaseHelper.Event.Table.NAME,
