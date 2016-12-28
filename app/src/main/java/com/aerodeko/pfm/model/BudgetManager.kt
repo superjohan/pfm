@@ -18,7 +18,8 @@ class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefau
         database = databaseHelper.writableDatabase
     }
 
-    internal fun clearEvents() {
+    internal fun clearTables() {
+        database.delete(EventDatabaseHelper.Budget.Table.NAME, null, null)
         database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
     }
 

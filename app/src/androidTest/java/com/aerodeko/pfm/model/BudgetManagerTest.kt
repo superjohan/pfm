@@ -20,7 +20,7 @@ class BudgetManagerTest {
         val context = InstrumentationRegistry.getTargetContext()
 
         budgetManager = BudgetManager(context, TimeZone.getTimeZone("GMT"))
-        budgetManager.clearEvents()
+        budgetManager.clearTables()
     }
 
     @Test
