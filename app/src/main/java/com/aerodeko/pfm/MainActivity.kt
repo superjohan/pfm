@@ -6,28 +6,28 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.aerodeko.pfm.model.EventInteractor
+import com.aerodeko.pfm.model.BudgetInteractor
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), EventInteractor.Listener {
-    private lateinit var eventInteractor: EventInteractor
+class MainActivity : AppCompatActivity(), BudgetInteractor.Listener {
+    private lateinit var budgetInteractor: BudgetInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        eventInteractor = EventInteractor(this, this)
+        budgetInteractor = BudgetInteractor(this, this)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
         incomeButton.setOnClickListener { view ->
-            eventInteractor.addIncome()
+            budgetInteractor.addIncome()
         }
 
         expenseButton.setOnClickListener { view ->
-            eventInteractor.addExpense()
+            budgetInteractor.addExpense()
         }
     }
 
