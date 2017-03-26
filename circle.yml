@@ -22,10 +22,10 @@ test:
         parallel: true
     - circle-android wait-for-boot
   override:
-    - export TERM="dumb"; ./gradlew connectedAndroidTest
+    - ./gradlew connectedAndroidTest
     - adb logcat -d > logcat.txt
-    - export TERM="dumb"; ./gradlew test
-    - export TERM="dumb"; ./gradlew lint
+    - ./gradlew test
+    - ./gradlew lint
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/app/build/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
