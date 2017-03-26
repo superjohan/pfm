@@ -33,12 +33,12 @@ test:
 
 general:
   artifacts:
-    - "app/build/outputs/lint-results.html"
-    - "app/build/outputs/lint-results.xml"
-    - "app/build/outputs/lint-results_files"
-    - "app/build/outputs/lint-results-debug.html"
-    - "app/build/outputs/lint-results-debug.xml"
-    - "app/build/outputs/lint-results-debug_files"
+    - "app/build/reports/lint-results.html"
+    - "app/build/reports/lint-results.xml"
+    - "app/build/reports/lint-results_files"
+    - "app/build/reports/lint-results-debug.html"
+    - "app/build/reports/lint-results-debug.xml"
+    - "app/build/reports/lint-results-debug_files"
     - "app/build/test-results"
     - "app/build/reports"
     - "logcat.txt"
