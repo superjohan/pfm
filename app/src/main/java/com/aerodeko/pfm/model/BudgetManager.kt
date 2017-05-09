@@ -122,7 +122,7 @@ class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefau
                 )
 
                 events.add(event)
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext())
         }
 
         cursor.close()
