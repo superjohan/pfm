@@ -12,15 +12,15 @@ import java.util.*
  * Created by rm on 11/12/2016.
  */
 @RunWith(AndroidJUnit4::class)
-class BudgetManagerTest {
-    private lateinit var budgetManager: BudgetManager
+class BudgetDatabaseManagerTest {
+    private lateinit var budgetDatabaseManager: BudgetDatabaseManager
 
     @Before
     fun setUp() {
         val context = InstrumentationRegistry.getTargetContext()
 
-        budgetManager = BudgetManager(context, TimeZone.getTimeZone("GMT"))
-        budgetManager.clearTables()
+        budgetDatabaseManager = BudgetDatabaseManager(context, TimeZone.getTimeZone("GMT"))
+        budgetDatabaseManager.clearTables()
     }
 
     @Test
@@ -31,8 +31,8 @@ class BudgetManagerTest {
         val date2 = Date(2000000000)
         val budget = Budget("budget", 0.0, date, date2)
 
-        val event = budgetManager.addEvent(expectedValue, date)
-        val events = budgetManager.getEvents(budget)
+        val event = budgetDatabaseManager.addEvent(expectedValue, date)
+        val events = budgetDatabaseManager.getEvents(budget)
 
         assertEquals("only one event should be received", 1, events.size)
 
@@ -49,15 +49,15 @@ class BudgetManagerTest {
         val date3 = date2.clone() as Calendar
         date3.add(Calendar.DAY_OF_MONTH, 1)
 
-        val event1_date1 = budgetManager.addEvent(1.0, date1.time)
-        val event1_date2 = budgetManager.addEvent(3.0, date1.time)
-        val event2 = budgetManager.addEvent(2.0, date2.time)
+        val event1_date1 = budgetDatabaseManager.addEvent(1.0, date1.time)
+        val event1_date2 = budgetDatabaseManager.addEvent(3.0, date1.time)
+        val event2 = budgetDatabaseManager.addEvent(2.0, date2.time)
 
         val budget1 = Budget("budget 1", 0.0, date1.time, date2.time)
         val budget2 = Budget("budget 2", 0.0, date2.time, date3.time)
 
-        val events1 = budgetManager.getEvents(budget1)
-        val events2 = budgetManager.getEvents(budget2)
+        val events1 = budgetDatabaseManager.getEvents(budget1)
+        val events2 = budgetDatabaseManager.getEvents(budget2)
 
         assertEquals("only two events for date", 2, events1.size)
         assertEquals("only one event for date", 1, events2.size)
@@ -68,7 +68,7 @@ class BudgetManagerTest {
 
     @Test
     fun test_adding_budget_creates_valid_budget() {
-        val budget = budgetManager.addBudget(
+        val budget = budgetDatabaseManager.addBudget(
                 name = "budget",
                 amount = 10.0,
                 startDate = Date(1234567890),
@@ -77,7 +77,7 @@ class BudgetManagerTest {
 
         assertNotNull("budget should not be null", budget)
 
-        val budgets = budgetManager.getBudgets()
+        val budgets = budgetDatabaseManager.getBudgets()
 
         assertEquals("should have one budget", 1, budgets.size)
 

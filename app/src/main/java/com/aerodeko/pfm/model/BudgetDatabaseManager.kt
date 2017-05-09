@@ -10,7 +10,7 @@ import java.util.*
  * Created by rm on 10/12/2016.
  */
 
-class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefault()) {
+class BudgetDatabaseManager(context: Context, val timeZone: TimeZone = TimeZone.getDefault()) {
     private val database: SQLiteDatabase
 
     init {

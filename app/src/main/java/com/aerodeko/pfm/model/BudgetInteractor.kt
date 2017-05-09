@@ -10,10 +10,10 @@ import android.util.Log
 class BudgetInteractor(context: Context, val listener: Listener) {
     private val TAG = "BudgetInteractor"
 
-    val budgetManager: BudgetManager
+    val budgetDatabaseManager: BudgetDatabaseManager
 
     init {
-        budgetManager = BudgetManager(context)
+        budgetDatabaseManager = BudgetDatabaseManager(context)
     }
 
     fun addIncome() {
