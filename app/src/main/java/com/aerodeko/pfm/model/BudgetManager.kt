@@ -111,7 +111,7 @@ class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefau
         val events = mutableListOf<Event>()
 
         if (cursor.moveToFirst()) {
-            while (! cursor.isAfterLast) {
+            do {
                 val date = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DATE))
                 val value = cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.VALUE))
                 val description = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DESCRIPTION))
@@ -122,9 +122,7 @@ class BudgetManager(context: Context, val timeZone: TimeZone = TimeZone.getDefau
                 )
 
                 events.add(event)
-
-                cursor.moveToNext()
-            }
+            } while (cursor.moveToNext());
         }
 
         cursor.close()
