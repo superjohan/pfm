@@ -7,4 +7,8 @@ import java.util.*
  */
 
 // TODO: amount should be Long
-data class Budget(val name: String, val amount: Double, val startDate: Date, val endDate: Date)
+data class Budget(val name: String, val amount: Double, val startDate: Date, val endDate: Date) {
+    val daysInBudget: Long {
+        val
+    }
+}

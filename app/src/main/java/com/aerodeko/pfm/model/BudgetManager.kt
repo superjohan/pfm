@@ -31,4 +31,9 @@ class BudgetManager(private val budgetDatabaseManager: BudgetDatabaseManager) {
 
         return budget
     }
+
+    fun dailyBudget(budget: Budget) {
+        val delta = budget.endDate.time - budget.startDate.time
+        val days = TimeUnit.DAYS.convert(delta, TimeUnit.MILLISECONDS)
+    }
 }

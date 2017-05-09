@@ -34,4 +34,9 @@ class BudgetManagerTest {
 
         assertEquals(addedBudget, currentBudget)
     }
+
+    @Test
+    fun test_daily_budget_is_correct_with_no_events() {
+
+    }
 }
