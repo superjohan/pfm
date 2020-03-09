@@ -20,17 +20,22 @@ class BudgetManagerTest {
     fun setUp() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
 
-        budgetDatabaseManager = BudgetDatabaseManager(context, TimeZone.getTimeZone("GMT"))
-        budgetDatabaseManager.clearTables()
+        this.budgetDatabaseManager = BudgetDatabaseManager(context, TimeZone.getTimeZone("GMT"))
+        this.budgetDatabaseManager.clearTables()
 
-        budgetManager = BudgetManager(budgetDatabaseManager)
+        this.budgetManager = BudgetManager(this.budgetDatabaseManager)
     }
 
     @Test
     fun test_current_budget_getter_works() {
         val now = Date()
-        val addedBudget = budgetManager.addBudget("budget", 100.0, Date(now.time - 1000), Date(now.time + 1000))
-        val currentBudget = budgetManager.currentBudget
+        val addedBudget = this.budgetManager.addBudget(
+            name = "budget",
+            amount = 100.0,
+            startDate = Date(now.time - 1000),
+            endDate = Date(now.time + 1000)
+        )
+        val currentBudget = this.budgetManager.currentBudget
 
         assertEquals(addedBudget, currentBudget)
     }
