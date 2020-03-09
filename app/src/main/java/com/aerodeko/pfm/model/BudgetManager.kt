@@ -15,7 +15,7 @@ class BudgetManager(private val budgetDatabaseManager: BudgetDatabaseManager) {
         get() {
             val now = Date()
 
-            budgets.forEach { budget ->
+            this.budgets.forEach { budget ->
                 if (budget.startDate.time <= now.time && budget.endDate.time >= now.time) {
                     return budget
                 }
@@ -25,9 +25,9 @@ class BudgetManager(private val budgetDatabaseManager: BudgetDatabaseManager) {
         }
 
     fun addBudget(name: String, amount: Double, startDate: Date, endDate: Date): Budget? {
-        val budget = budgetDatabaseManager.addBudget(name, amount, startDate, endDate)
+        val budget = this.budgetDatabaseManager.addBudget(name, amount, startDate, endDate)
 
-        budgets = budgetDatabaseManager.getBudgets()
+        this.budgets = budgetDatabaseManager.getBudgets()
 
         return budget
     }

@@ -10,17 +10,20 @@ import java.util.*
  * Created by rm on 10/12/2016.
  */
 
-class BudgetDatabaseManager(context: Context, val timeZone: TimeZone = TimeZone.getDefault()) {
+class BudgetDatabaseManager(
+    context: Context,
+    private val timeZone: TimeZone = TimeZone.getDefault()
+) {
     private val database: SQLiteDatabase
 
     init {
         val databaseHelper = EventDatabaseHelper(context)
-        database = databaseHelper.writableDatabase
+        this.database = databaseHelper.writableDatabase
     }
 
     internal fun clearTables() {
-        database.delete(EventDatabaseHelper.Budget.Table.NAME, null, null)
-        database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
+        this.database.delete(EventDatabaseHelper.Budget.Table.NAME, null, null)
+        this.database.delete(EventDatabaseHelper.Event.Table.NAME, null, null)
     }
 
     fun addBudget(name: String, amount: Double, startDate: Date, endDate: Date): Budget? {
@@ -32,37 +35,41 @@ class BudgetDatabaseManager(context: Context, val timeZone: TimeZone = TimeZone.
 
         val rowId = database.insert(EventDatabaseHelper.Budget.Table.NAME, null, values)
 
-        if (rowId != -1L) {
-            return Budget(name, amount, startDate, endDate)
+        return if (rowId != -1L) {
+            Budget(name, amount, startDate, endDate)
         } else {
-            return null
+            null
         }
     }
 
     fun getBudgets(): List<Budget> {
         val cursor = database.query(
-                EventDatabaseHelper.Budget.Table.NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null
+            EventDatabaseHelper.Budget.Table.NAME,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
         )
 
         val budgets = mutableListOf<Budget>()
 
         if (cursor.moveToFirst()) {
-            while (! cursor.isAfterLast) {
-                val name = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.NAME))
-                val amount = cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.AMOUNT))
-                val startDate = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.START_DATE))
-                val endDate = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.END_DATE))
+            while (!cursor.isAfterLast) {
+                val name =
+                    cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.NAME))
+                val amount =
+                    cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.AMOUNT))
+                val startDate =
+                    cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.START_DATE))
+                val endDate =
+                    cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Budget.Columns.END_DATE))
                 val budget = Budget(
-                        name = name,
-                        amount = amount,
-                        startDate = Date(startDate),
-                        endDate = Date(endDate)
+                    name = name,
+                    amount = amount,
+                    startDate = Date(startDate),
+                    endDate = Date(endDate)
                 )
 
                 budgets.add(budget)
@@ -84,41 +91,44 @@ class BudgetDatabaseManager(context: Context, val timeZone: TimeZone = TimeZone.
 
         val rowId = database.insert(EventDatabaseHelper.Event.Table.NAME, null, values)
 
-        if (rowId != -1L) {
-            return Event(date, value, description)
+        return if (rowId != -1L) {
+            Event(date, value, description)
         } else {
-            return null
+            null
         }
     }
 
     fun getEvents(budget: Budget): List<Event> {
-        val startDate = Calendar.getInstance(timeZone)
+        val startDate = Calendar.getInstance(this.timeZone)
         startDate.setTimeToStartOfDate(budget.startDate)
 
         val endDate = Calendar.getInstance(timeZone)
         endDate.setTimeToStartOfDate(budget.endDate)
 
         val cursor = database.query(
-                EventDatabaseHelper.Event.Table.NAME,
-                null,
-                EventDatabaseHelper.Event.Columns.DATE + " between " + startDate.timeInMillis + " and " + endDate.timeInMillis,
-                null,
-                null,
-                null,
-                null
+            EventDatabaseHelper.Event.Table.NAME,
+            null,
+            EventDatabaseHelper.Event.Columns.DATE + " between " + startDate.timeInMillis + " and " + endDate.timeInMillis,
+            null,
+            null,
+            null,
+            null
         )
 
         val events = mutableListOf<Event>()
 
         if (cursor.moveToFirst()) {
             do {
-                val date = cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DATE))
-                val value = cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.VALUE))
-                val description = cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DESCRIPTION))
+                val date =
+                    cursor.getLong(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DATE))
+                val value =
+                    cursor.getDouble(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.VALUE))
+                val description =
+                    cursor.getString(cursor.getColumnIndex(EventDatabaseHelper.Event.Columns.DESCRIPTION))
                 val event = Event(
-                        date = Date(date),
-                        value = value,
-                        description = description
+                    date = Date(date),
+                    value = value,
+                    description = description
                 )
 
                 events.add(event)

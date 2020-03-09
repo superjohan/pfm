@@ -8,23 +8,24 @@ import android.database.sqlite.SQLiteOpenHelper
  * Created by rm on 10/12/2016.
  */
 
-internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context, "events.db", null, Versions.CURRENT) {
+internal class EventDatabaseHelper(context: Context) :
+    SQLiteOpenHelper(context, "events.db", null, Versions.CURRENT) {
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(
-                "CREATE TABLE " + Event.Table.NAME + " (" +
-                        Event.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        Event.Columns.DATE + " TIMESTAMP NOT NULL," +
-                        Event.Columns.VALUE + " REAL NOT NULL," +
-                        Event.Columns.DESCRIPTION + " TEXT)"
+            "CREATE TABLE " + Event.Table.NAME + " (" +
+                    Event.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Event.Columns.DATE + " TIMESTAMP NOT NULL," +
+                    Event.Columns.VALUE + " REAL NOT NULL," +
+                    Event.Columns.DESCRIPTION + " TEXT)"
         )
 
         db?.execSQL(
-                "CREATE TABLE " + Budget.Table.NAME + " (" +
-                        Budget.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                        Budget.Columns.NAME + " TEXT NOT NULL," +
-                        Budget.Columns.AMOUNT + " REAL NOT NULL," +
-                        Budget.Columns.START_DATE + " TIMESTAMP NOT NULL," +
-                        Budget.Columns.END_DATE + " TIMESTAMP NOT NULL)"
+            "CREATE TABLE " + Budget.Table.NAME + " (" +
+                    Budget.Columns.ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    Budget.Columns.NAME + " TEXT NOT NULL," +
+                    Budget.Columns.AMOUNT + " REAL NOT NULL," +
+                    Budget.Columns.START_DATE + " TIMESTAMP NOT NULL," +
+                    Budget.Columns.END_DATE + " TIMESTAMP NOT NULL)"
         )
     }
 
@@ -35,34 +36,34 @@ internal class EventDatabaseHelper(context: Context) : SQLiteOpenHelper(context,
     }
 
     private object Versions {
-        val LAUNCH = 1
-        val CURRENT = LAUNCH
+        const val LAUNCH = 1
+        const val CURRENT = LAUNCH
     }
 
     object Event {
         object Table {
-            val NAME = "events"
+            const val NAME = "events"
         }
 
         object Columns {
-            val ID = "id"
-            val DATE = "date"
-            val VALUE = "value"
-            val DESCRIPTION = "description"
+            const val ID = "id"
+            const val DATE = "date"
+            const val VALUE = "value"
+            const val DESCRIPTION = "description"
         }
     }
 
     object Budget {
         object Table {
-            val NAME = "budgets"
+            const val NAME = "budgets"
         }
 
         object Columns {
-            val ID = "id"
-            val NAME = "name"
-            val AMOUNT = "amount"
-            val START_DATE = "start_date"
-            val END_DATE = "end_date"
+            const val ID = "id"
+            const val NAME = "name"
+            const val AMOUNT = "amount"
+            const val START_DATE = "start_date"
+            const val END_DATE = "end_date"
         }
     }
 }

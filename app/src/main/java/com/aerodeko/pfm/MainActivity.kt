@@ -17,23 +17,22 @@ class MainActivity : AppCompatActivity(), BudgetInteractor.Listener {
 
         setContentView(R.layout.activity_main)
 
-        budgetInteractor = BudgetInteractor(this, this)
+        this.budgetInteractor = BudgetInteractor(this, this)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(this.toolbar)
 
-        incomeButton.setOnClickListener { view ->
-            budgetInteractor.addIncome()
+        incomeButton.setOnClickListener {
+            this.budgetInteractor.addIncome()
         }
 
-        expenseButton.setOnClickListener { view ->
-            budgetInteractor.addExpense()
+        expenseButton.setOnClickListener {
+            this.budgetInteractor.addExpense()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        this.menuInflater.inflate(R.menu.menu_main, menu)
 
         return true
     }

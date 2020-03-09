@@ -7,8 +7,9 @@ import android.util.Log
  * Created by rm on 10/12/2016.
  */
 
+private const val TAG = "BudgetInteractor"
+
 class BudgetInteractor(context: Context, val listener: Listener) {
-    private val TAG = "BudgetInteractor"
 
     val budgetDatabaseManager: BudgetDatabaseManager = BudgetDatabaseManager(context)
 
