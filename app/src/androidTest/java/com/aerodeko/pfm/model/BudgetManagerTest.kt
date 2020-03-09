@@ -18,7 +18,7 @@ class BudgetManagerTest {
 
     @Before
     fun setUp() {
-        val context = InstrumentationRegistry.getTargetContext()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
 
         budgetDatabaseManager = BudgetDatabaseManager(context, TimeZone.getTimeZone("GMT"))
         budgetDatabaseManager.clearTables()
