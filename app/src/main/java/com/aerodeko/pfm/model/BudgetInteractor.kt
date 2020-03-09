@@ -7,14 +7,11 @@ import android.util.Log
  * Created by rm on 10/12/2016.
  */
 
-class EventInteractor(context: Context, val listener: Listener) {
-    private val TAG = "EventInteractor"
+private const val TAG = "BudgetInteractor"
 
-    val eventManager: EventManager
+class BudgetInteractor(context: Context, val listener: Listener) {
 
-    init {
-        eventManager = EventManager(context)
-    }
+    val budgetDatabaseManager: BudgetDatabaseManager = BudgetDatabaseManager(context)
 
     fun addIncome() {
         Log.d(TAG, "addIncome: TODO")

@@ -1,39 +1,38 @@
 package com.aerodeko.pfm
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
-import com.aerodeko.pfm.model.EventInteractor
+import com.aerodeko.pfm.model.BudgetInteractor
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), EventInteractor.Listener {
-    private lateinit var eventInteractor: EventInteractor
+class MainActivity : AppCompatActivity(), BudgetInteractor.Listener {
+    private lateinit var budgetInteractor: BudgetInteractor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        eventInteractor = EventInteractor(this, this)
+        this.budgetInteractor = BudgetInteractor(this, this)
 
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
-        setSupportActionBar(toolbar)
+        setSupportActionBar(this.toolbar)
 
-        incomeButton.setOnClickListener { view ->
-            eventInteractor.addIncome()
+        incomeButton.setOnClickListener {
+            this.budgetInteractor.addIncome()
         }
 
-        expenseButton.setOnClickListener { view ->
-            eventInteractor.addExpense()
+        expenseButton.setOnClickListener {
+            this.budgetInteractor.addExpense()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+        this.menuInflater.inflate(R.menu.menu_main, menu)
 
         return true
     }
